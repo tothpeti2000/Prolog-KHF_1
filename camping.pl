@@ -1,7 +1,7 @@
 satrak_mx(NM, Fs, Ss, Mx) :-
     N-M = NM,
     get_tent_positions(Fs, Ss, N, M, Tents),
-    no_touching_tents(Tents),
+    no_duplicate_tents(Tents),
     init_tent_matrix(N, M, Matrix),
     add_tents_to_matrix(Matrix, Tents, Mx).
 
@@ -37,7 +37,11 @@ get_tent_position(Tree, w, _N, _M, Tent) :-
     J2 >= 1,
     Tent = I-J2.
 
-no_touching_tents(Tents).
+no_duplicate_tents(Tents) :-
+    sort(Tents, Sorted),
+    length(Tents, Tents_Count),
+    length(Sorted, Sorted_Count),
+    Tents_Count =:= Sorted_Count.
 
 init_tent_matrix(0, _M, []).
 
